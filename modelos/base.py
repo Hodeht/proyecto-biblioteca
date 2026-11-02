@@ -1,0 +1,1 @@
+from base_datos.conexion_orm import Base

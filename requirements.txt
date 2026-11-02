@@ -1,0 +1,6 @@
+reportlab
+qtawesome
+bcrypt
+SALAlchemy
+mysql-connector-python
+PySide6
