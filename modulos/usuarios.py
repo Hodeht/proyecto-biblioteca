@@ -44,7 +44,7 @@ class Usuarios(QWidget):
         ventana.setContentsMargins(0, 0, 0, 0)
         ventana.addWidget(scroll)
 
-        # ENCABEZADO
+      
         encabezado = QHBoxLayout()
         textos = QVBoxLayout()
 
@@ -69,7 +69,7 @@ class Usuarios(QWidget):
         encabezado.addWidget(boton_volver)
         principal.addLayout(encabezado)
 
-        # FORMULARIO
+       
         formulario_frame = QFrame()
         formulario_frame.setObjectName("tarjeta")
         formulario_frame.setGraphicsEffect(None)
@@ -101,7 +101,7 @@ class Usuarios(QWidget):
 
         principal.addWidget(formulario_frame)
 
-        # BOTONES
+       
         botones = QHBoxLayout()
 
         self.registrar = QPushButton("Registrar usuario")
@@ -118,7 +118,6 @@ class Usuarios(QWidget):
 
         principal.addLayout(botones)
 
-        # BÚSQUEDA
         self.buscar = QLineEdit()
         self.buscar.setPlaceholderText(
             "Buscar por nombre o cédula..."
@@ -127,7 +126,7 @@ class Usuarios(QWidget):
 
         principal.addWidget(self.buscar)
 
-        # TABLA
+        
         self.tabla = QTableWidget(0, 6)
 
         self.tabla.setHorizontalHeaderLabels([
@@ -150,10 +149,9 @@ class Usuarios(QWidget):
 
         principal.addWidget(self.tabla)
 
-        # CARGAR DATOS
         self.cargar_usuarios()
 
-    # REGISTRAR O ACTUALIZAR USUARIO
+   
     # REGISTRAR O ACTUALIZAR USUARIO MEDIANTE ORM
     def registrar_usuario(self):
 

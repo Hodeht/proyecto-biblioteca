@@ -316,9 +316,7 @@ class Registros(QWidget):
         self.cargar_registros()
         self.generar_codigo()
 
-    # ==================================================
-    # SECCIONES
-    # ==================================================
+    
 
     def actualizar_secciones(self):
 
@@ -333,7 +331,11 @@ class Registros(QWidget):
                 "Teatro",
                 "Literatura nicaragüense",
                 "Fantasía",
-                "Ciencia ficción"
+                "Ciencia ficción",
+                "Romance",
+                "Misterio",
+                "Literatura clásica ",
+                "Literatura juvenil",
             ],
 
             "Historia": [
@@ -341,7 +343,10 @@ class Registros(QWidget):
                 "Historia de América",
                 "Historia Universal",
                 "Historia Antigua",
-                "Historia Contemporánea"
+                "Historia Contemporánea",
+                "Historia Moderna",
+                "Historia Política",
+
             ],
 
             "Tecnología": [
@@ -350,7 +355,10 @@ class Registros(QWidget):
                 "Redes",
                 "Sistemas",
                 "Informática",
-                "Inteligencia Artificial"
+                "Inteligencia Artificial",
+                "Robótica",
+                "Ciberseguridad",
+                "Sistemas operativos",
             ],
 
             "Ciencias": [
@@ -358,7 +366,9 @@ class Registros(QWidget):
                 "Física",
                 "Química",
                 "Biología",
-                "Ciencias Naturales"
+                "Ciencias Naturales",
+                "Zoología",
+                "Astronomía",
             ],
 
             "Educación": [
@@ -366,7 +376,9 @@ class Registros(QWidget):
                 "Didáctica",
                 "Educación Infantil",
                 "Educación Especial",
-                "Métodos de Enseñanza"
+                "Métodos de Enseñanza",
+                "Psicopedagogía",
+                
             ],
 
             "Ciencias Sociales": [
@@ -374,7 +386,9 @@ class Registros(QWidget):
                 "Economía",
                 "Derecho",
                 "Política",
-                "Antropología"
+                "Antropología",
+                "Trabajo social",
+                "Comunicación",
             ],
 
             "Geografía y Turismo": [
@@ -382,7 +396,9 @@ class Registros(QWidget):
                 "Turismo",
                 "Cultura",
                 "Patrimonio",
-                "Viajes y destinos"
+                "Viajes y destinos",
+                "Atlas y mapas",
+                "Geografía de Nicaragua",
             ],
 
             "Filosofía y Psicología": [
@@ -390,7 +406,7 @@ class Registros(QWidget):
                 "Psicología",
                 "Ética",
                 "Pensamiento humano",
-                "Desarrollo personal"
+                "Desarrollo personal",
             ],
 
             "Medicina y Salud": [
@@ -398,7 +414,9 @@ class Registros(QWidget):
                 "Enfermería",
                 "Anatomía",
                 "Salud pública",
-                "Nutrición"
+                "Nutrición",
+                "Odontologia",
+                "Primeros auxilios",
             ],
 
             "Infantil": [
@@ -406,7 +424,9 @@ class Registros(QWidget):
                 "Libros educativos",
                 "Aventuras",
                 "Fábulas",
-                "Actividades infantiles"
+                "Actividades infantiles",
+                
+
             ]
         }
 
@@ -416,9 +436,7 @@ class Registros(QWidget):
             secciones.get(categoria, [])
         )
 
-    # ==================================================
-    # UBICACIÓN AUTOMÁTICA
-    # ==================================================
+   
 
     def obtener_ubicacion(
         self,
@@ -450,6 +468,10 @@ class Registros(QWidget):
             "Literatura nicaragüense": "Estante 5",
             "Fantasía": "Estante 6",
             "Ciencia ficción": "Estante 7",
+            "Romance": "Estante 8",
+            "Misterio": "Estante 9",
+            "Literatura clásica ": "Estante 10",
+            "Literatura juvenil ": "Estante11",
             
 
             "Historia de Nicaragua": "Estante 1",
@@ -457,6 +479,8 @@ class Registros(QWidget):
             "Historia Universal": "Estante 3",
             "Historia Antigua": "Estante 4",
             "Historia Contemporánea": "Estante 5",
+            "Historia Moderna": "Estante 6",
+            "Historia Política": "Estante 7",
 
             "Programación": "Estante 1",
             "Bases de datos": "Estante 2",
@@ -464,30 +488,41 @@ class Registros(QWidget):
             "Sistemas": "Estante 4",
             "Informática": "Estante 5",
             "Inteligencia Artificial": "Estante 6",
+            "Robótica": "Estante 7",
+            "Ciberseguridad": "Estante 8", 
+            "Sistemas operativos": "Estante 9",
 
             "Matemáticas": "Estante 1",
             "Física": "Estante 2",
             "Química": "Estante 3",
             "Biología": "Estante 4",
             "Ciencias Naturales": "Estante 5",
+            "Zoología": "Estante 6",
+            "Astronomía": "Estante 7",
+            
 
             "Pedagogía": "Estante 1",
             "Didáctica": "Estante 2",
             "Educación Infantil": "Estante 3",
             "Educación Especial": "Estante 4",
             "Métodos de Enseñanza": "Estante 5",
+            "Psicopedagogía": "Estante 6",
 
             "Sociología": "Estante 1",
             "Economía": "Estante 2",
             "Derecho": "Estante 3",
             "Política": "Estante 4",
             "Antropología": "Estante 5",
+            "Trabajo social": "Estante 6",
+            "Comunicación": "Estante 7",
 
             "Geografía": "Estante 1",
             "Turismo": "Estante 2",
             "Cultura": "Estante 3",
             "Patrimonio": "Estante 4",
             "Viajes y destinos": "Estante 5",
+             "Atlas y mapas": "Estate 6",
+            "Geografía de Nicaragua": "Estante 7",
 
             "Filosofía": "Estante 1",
             "Psicología": "Estante 2",
@@ -500,6 +535,8 @@ class Registros(QWidget):
             "Anatomía": "Estante 3",
             "Salud pública": "Estante 4",
             "Nutrición": "Estante 5",
+            "Odontologia": "Etante 6",
+            "Primeros auxilios": "Estante 7",
 
             "Cuentos infantiles": "Estante 1",
             "Libros educativos": "Estante 2",
@@ -543,9 +580,9 @@ class Registros(QWidget):
         return pasillo, estante, repisa
 
    
-   # ==================================================
+   #
     # GENERAR CÓDIGO AUTOMÁTICO MEDIANTE ORM
-    # ==================================================
+ 
 
     def generar_codigo(self):
 
@@ -590,9 +627,9 @@ class Registros(QWidget):
         
 
 
-   # ==================================================
+   
     # CARGAR REGISTROS MEDIANTE ORM
-    # ==================================================
+  
 
     def cargar_registros(self):
 
@@ -1128,9 +1165,7 @@ def eliminar_registro(self, fila):
 
        
 
-    # ==================================================
-    # EDITAR
-    # ==================================================
+   
 
     def editar_registro(self, fila):
 

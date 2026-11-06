@@ -54,7 +54,7 @@ class PanelPrincipal(QWidget):
         logo = QLabel("BIBLIOTECA LEÓN")
         logo.setObjectName("logo")
 
-        sub = QLabel("Sistema de registros")
+        sub = QLabel("Gestión bibliotecaria")
         sub.setObjectName("menuSub")
 
         menu_layout.addWidget(logo)
@@ -63,7 +63,7 @@ class PanelPrincipal(QWidget):
 
         # BOTÓN INICIO
         inicio = QPushButton("  Inicio")
-        inicio.setObjectName("menuButton")
+        inicio.setObjectName("menuButtonActivo")
         inicio.clicked.connect(self.actualizar_datos)
 
         # BOTÓN REGISTROS

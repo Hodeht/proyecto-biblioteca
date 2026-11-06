@@ -1,13 +1,14 @@
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel,
     QPushButton, QLineEdit, QComboBox, QTableWidget,
-    QTableWidgetItem, QHeaderView, QMessageBox
+    QTableWidgetItem, QHeaderView, QMessageBox,
+    QAbstractItemView
 )
 
 import bcrypt
+
 from base_datos.conexion_orm import obtener_sesion
 from modelos.cuenta_acceso import Cuenta
-
 
 
 class Cuentas(QWidget):
@@ -21,6 +22,7 @@ class Cuentas(QWidget):
         principal.setContentsMargins(30, 25, 30, 25)
         principal.setSpacing(12)
 
+        # Título
         titulo = QLabel("Gestión de cuentas")
         titulo.setObjectName("tituloPagina")
 
@@ -32,6 +34,7 @@ class Cuentas(QWidget):
         principal.addWidget(titulo)
         principal.addWidget(descripcion)
 
+        # Formulario
         formulario = QHBoxLayout()
 
         self.nombre = QLineEdit()
@@ -50,6 +53,7 @@ class Cuentas(QWidget):
 
         principal.addLayout(formulario)
 
+        # Botones principales
         botones = QHBoxLayout()
 
         crear = QPushButton("Crear bibliotecario")
@@ -70,23 +74,47 @@ class Cuentas(QWidget):
 
         principal.addLayout(botones)
 
+        # Tabla de cuentas
         self.tabla = QTableWidget(0, 5)
+
         self.tabla.setHorizontalHeaderLabels([
             "ID", "Nombre", "Usuario", "Estado", "Acción"
         ])
 
-        self.tabla.horizontalHeader().setSectionResizeMode(
-            QHeaderView.ResizeMode.Stretch
+        encabezado = self.tabla.horizontalHeader()
+
+        # Distribución de columnas
+        for columna in range(4):
+            encabezado.setSectionResizeMode(
+                columna,
+                QHeaderView.ResizeMode.Stretch
+            )
+
+        encabezado.setSectionResizeMode(
+            4,
+            QHeaderView.ResizeMode.Fixed
         )
+
+        # Espacio suficiente para el botón
+        self.tabla.setColumnWidth(4, 180)
+
         self.tabla.verticalHeader().setVisible(False)
+
         self.tabla.setEditTriggers(
             QTableWidget.EditTrigger.NoEditTriggers
         )
+
+        self.tabla.setSelectionBehavior(
+            QAbstractItemView.SelectionBehavior.SelectRows
+        )
+
+        self.tabla.setAlternatingRowColors(True)
 
         principal.addWidget(self.tabla)
 
         self.cargar_cuentas()
 
+    # Crear cuenta de bibliotecario
     def crear_cuenta(self):
 
         nombre = self.nombre.text().strip()
@@ -95,14 +123,16 @@ class Cuentas(QWidget):
 
         if not nombre or not usuario or not clave:
             QMessageBox.warning(
-                self, "Datos incompletos",
+                self,
+                "Datos incompletos",
                 "Completá el nombre, el usuario y la contraseña."
             )
             return
 
         if len(clave) < 8:
             QMessageBox.warning(
-                self, "Contraseña insegura",
+                self,
+                "Contraseña insegura",
                 "La contraseña debe tener al menos 8 caracteres."
             )
             return
@@ -118,7 +148,8 @@ class Cuentas(QWidget):
 
             if cuenta_existente:
                 QMessageBox.warning(
-                    self, "Usuario existente",
+                    self,
+                    "Usuario existente",
                     "Ese nombre de usuario ya está registrado."
                 )
                 return
@@ -140,7 +171,8 @@ class Cuentas(QWidget):
             sesion.commit()
 
             QMessageBox.information(
-                self, "Cuenta creada",
+                self,
+                "Cuenta creada",
                 "La cuenta del bibliotecario se creó correctamente."
             )
 
@@ -154,13 +186,15 @@ class Cuentas(QWidget):
             sesion.rollback()
 
             QMessageBox.critical(
-                self, "Error",
+                self,
+                "Error",
                 f"No se pudo crear la cuenta.\n{error}"
             )
 
         finally:
             sesion.close()
 
+    # Cargar cuentas en la tabla
     def cargar_cuentas(self):
 
         sesion = obtener_sesion()
@@ -176,6 +210,7 @@ class Cuentas(QWidget):
             self.tabla.setRowCount(0)
 
             for fila, cuenta in enumerate(cuentas):
+
                 self.tabla.insertRow(fila)
 
                 valores = [
@@ -186,35 +221,53 @@ class Cuentas(QWidget):
                 ]
 
                 for columna, valor in enumerate(valores):
+
+                    elemento = QTableWidgetItem(str(valor))
+
                     self.tabla.setItem(
                         fila,
                         columna,
-                        QTableWidgetItem(str(valor))
+                        elemento
                     )
 
+                # Botón activar / desactivar
                 boton = QPushButton(
                     "Desactivar" if cuenta.activo else "Activar"
                 )
+
                 boton.setObjectName("menuButton")
+                boton.setMinimumSize(150, 35)
+                boton.setMaximumWidth(160)
 
                 boton.clicked.connect(
                     lambda checked=False,
                     id_cuenta=cuenta.id,
                     estado=cuenta.activo: self.cambiar_estado(
-                        id_cuenta, estado
+                        id_cuenta,
+                        estado
                     )
                 )
 
-                self.tabla.setCellWidget(fila, 4, boton)
+                self.tabla.setCellWidget(
+                    fila,
+                    4,
+                    boton
+                )
+
+                # Altura suficiente para visualizar el botón
+                self.tabla.setRowHeight(fila, 48)
 
         except Exception as error:
             QMessageBox.critical(
-                self, "Error",
+                self,
+                "Error",
                 f"No se pudieron cargar las cuentas.\n{error}"
             )
 
         finally:
             sesion.close()
+
+    # Cambiar estado de la cuenta
     def cambiar_estado(self, identificador, activo):
 
         nuevo_estado = not bool(activo)
@@ -222,7 +275,9 @@ class Cuentas(QWidget):
         respuesta = QMessageBox.question(
             self,
             "Confirmar cambio",
-            "¿Querés cambiar el estado de esta cuenta?"
+            "¿Querés cambiar el estado de esta cuenta?",
+            QMessageBox.StandardButton.Yes |
+            QMessageBox.StandardButton.No
         )
 
         if respuesta != QMessageBox.StandardButton.Yes:
@@ -242,12 +297,14 @@ class Cuentas(QWidget):
 
             if cuenta is None:
                 QMessageBox.warning(
-                    self, "Cuenta no encontrada",
+                    self,
+                    "Cuenta no encontrada",
                     "No se encontró la cuenta seleccionada."
                 )
                 return
 
             cuenta.activo = nuevo_estado
+
             sesion.commit()
 
             self.cargar_cuentas()
@@ -256,7 +313,8 @@ class Cuentas(QWidget):
             sesion.rollback()
 
             QMessageBox.critical(
-                self, "Error",
+                self,
+                "Error",
                 f"No se pudo cambiar el estado.\n{error}"
             )
 

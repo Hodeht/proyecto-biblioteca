@@ -18,17 +18,17 @@ def obtener_engine_mysql(
 
     engine = create_engine(
         url,
-        echo=depuracion
+        echo=depuracion,
+        pool_pre_ping=True
+    
     )
 
     return engine
 
 
-# Crear el motor de conexión
 engine = obtener_engine_mysql()
 
 
-# Configuración de sesiones
 SessionLocal = sessionmaker(
     bind=engine,
     autoflush=False,
@@ -36,11 +36,11 @@ SessionLocal = sessionmaker(
 )
 
 
-# Base para todos los modelos ORM
+
 Base = declarative_base()
 
 
-# Función para obtener una sesión
+
 def obtener_sesion():
     return SessionLocal()
 

@@ -74,6 +74,17 @@ QWidget {
     background-color: #1A3938;
 }
 
+#menuButtonActivo {
+    background-color: #31615F;
+    color: white;
+    border: none;
+    border-left: 3px solid #F5D98B;
+    border-radius: 8px;
+    text-align: left;
+    padding: 11px 13px 11px 10px;
+    font-weight: bold;
+}
+
 
 /* TITULOS */
 
