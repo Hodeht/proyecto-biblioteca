@@ -38,7 +38,7 @@ class PanelPrincipal(QWidget):
         self.abrir_reportes = abrir_reportes
 
         
-        # MENÚ LATERAL
+        
         principal = QHBoxLayout(self)
         principal.setContentsMargins(0, 0, 0, 0)
         principal.setSpacing(0)
@@ -61,32 +61,33 @@ class PanelPrincipal(QWidget):
         menu_layout.addWidget(sub)
         menu_layout.addSpacing(20)
 
-        # BOTÓN INICIO
+       
         inicio = QPushButton("  Inicio")
         inicio.setObjectName("menuButtonActivo")
         inicio.clicked.connect(self.actualizar_datos)
 
-        # BOTÓN REGISTROS
+       #botone
+
         registros = QPushButton("  Registros")
         registros.setObjectName("menuButton")
         registros.clicked.connect(self.abrir_registros)
 
-        # BOTÓN PRÉSTAMOS
+      
         prestamos = QPushButton("  Préstamos")
         prestamos.setObjectName("menuButton")
         prestamos.clicked.connect(self.abrir_prestamos)
 
-        # BOTÓN USUARIOS
+        
         usuarios = QPushButton("  Usuarios")
         usuarios.setObjectName("menuButton")
         usuarios.clicked.connect(self.abrir_usuarios)
 
-        # BOTÓN REPORTES
+        
         reportes = QPushButton("  Reportes")
         reportes.setObjectName("menuButton")
         reportes.clicked.connect(self.abrir_reportes)
 
-        # BOTÓN GESTIÓN DE CUENTAS
+      
         self.gestion_cuentas = QPushButton(
             "  Gestión de cuentas"
         )
@@ -95,7 +96,7 @@ class PanelPrincipal(QWidget):
             self.abrir_gestion_cuentas
         )
 
-        # OCULTO HASTA INICIAR SESIÓN COMO ADMINISTRADOR
+        # se oculta si se inicia como biblio
         self.gestion_cuentas.hide()
 
         menu_layout.addWidget(inicio)
@@ -107,13 +108,13 @@ class PanelPrincipal(QWidget):
 
         menu_layout.addStretch()
 
-        # BOTÓN CERRAR SESIÓN
+        
         salir = QPushButton("  Cerrar sesión")
         salir.setObjectName("menuButton")
         salir.clicked.connect(self.cerrar_sesion)
         menu_layout.addWidget(salir)
 
-        # CONTENIDO PRINCIPAL
+      
         contenido = QWidget()
 
         layout = QVBoxLayout(contenido)
@@ -132,7 +133,7 @@ class PanelPrincipal(QWidget):
         layout.addWidget(descripcion)
         layout.addSpacing(15)
 
-        # TARJETAS CON ICONOS
+        
         tarjetas = QHBoxLayout()
         tarjetas.setSpacing(15)
 
@@ -175,7 +176,7 @@ class PanelPrincipal(QWidget):
         layout.addLayout(tarjetas)
         layout.addSpacing(20)
 
-        # TABLA DE ÚLTIMOS REGISTROS
+        
         titulo_tabla = QLabel("Últimos registros")
         titulo_tabla.setStyleSheet(
             "font-size: 17px; font-weight: bold;"
@@ -208,10 +209,9 @@ class PanelPrincipal(QWidget):
         principal.addWidget(menu)
         principal.addWidget(contenido)
 
-        # CARGAR DATOS INICIALES
         self.actualizar_datos()
 
-    # CREAR TARJETAS CON ICONOS
+    
     def crear_tarjeta(
         self, titulo, numero, nombre_icono, color_icono
     ):
@@ -297,8 +297,7 @@ class PanelPrincipal(QWidget):
         layout.addWidget(cantidad)
 
         return tarjeta
-
-    # ACTUALIZAR DATOS DEL PANEL
+      #se actualizan los datos en el panel 
     def actualizar_datos(self):
 
         conexion = None
@@ -308,7 +307,7 @@ class PanelPrincipal(QWidget):
             conexion = conectar()
             cursor = conexion.cursor()
 
-            # TOTAL DE LIBROS
+            
             cursor.execute(
                 "SELECT COUNT(*) FROM libros"
             )
@@ -316,7 +315,7 @@ class PanelPrincipal(QWidget):
             total_libros = cursor.fetchone()[0]
             self.libros_numero.setText(str(total_libros))
 
-            # TOTAL DE USUARIOS
+            
             cursor.execute(
                 "SELECT COUNT(*) FROM usuarios"
             )
@@ -324,7 +323,7 @@ class PanelPrincipal(QWidget):
             total_usuarios = cursor.fetchone()[0]
             self.usuarios_numero.setText(str(total_usuarios))
 
-            # PRÉSTAMOS ACTIVOS
+           
             cursor.execute("""
                 SELECT COUNT(*)
                 FROM prestamos
@@ -349,7 +348,7 @@ class PanelPrincipal(QWidget):
                 str(total_pendientes)
             )
 
-            # ÚLTIMOS CINCO LIBROS
+            # se registran ultimo 5 libros
             cursor.execute("""
                 SELECT codigo, titulo, categoria, estado
                 FROM libros
@@ -388,7 +387,7 @@ class PanelPrincipal(QWidget):
             if conexion:
                 conexion.close()
 
-    # CONFIGURAR PERMISOS SEGÚN EL ROL
+    
     def configurar_rol(self, rol):
 
         self.rol = rol
@@ -398,7 +397,7 @@ class PanelPrincipal(QWidget):
         else:
             self.gestion_cuentas.hide()
 
-    # ABRIR GESTIÓN DE CUENTAS
+   
     def abrir_gestion_cuentas(self):
 
         if self.rol == "administrador":

@@ -386,7 +386,7 @@ class AlertasDevolucion(QWidget):
 
         mensaje = (
             f"Hola, {usuario}. Le contactamos de la "
-            f"Biblioteca de León para recordarle que "
+            f"Biblioteca  para recordarle que "
             f"tiene pendiente la devolución del libro "
             f"'{libro}'. ¿Podría indicarnos cuándo "
             f"realizará la devolución? Muchas gracias."

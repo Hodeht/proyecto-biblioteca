@@ -22,7 +22,7 @@ class Cuentas(QWidget):
         principal.setContentsMargins(30, 25, 30, 25)
         principal.setSpacing(12)
 
-        # Título
+        
         titulo = QLabel("Gestión de cuentas")
         titulo.setObjectName("tituloPagina")
 
@@ -34,7 +34,7 @@ class Cuentas(QWidget):
         principal.addWidget(titulo)
         principal.addWidget(descripcion)
 
-        # Formulario
+      
         formulario = QHBoxLayout()
 
         self.nombre = QLineEdit()
@@ -53,7 +53,7 @@ class Cuentas(QWidget):
 
         principal.addLayout(formulario)
 
-        # Botones principales
+        
         botones = QHBoxLayout()
 
         crear = QPushButton("Crear bibliotecario")
@@ -74,7 +74,7 @@ class Cuentas(QWidget):
 
         principal.addLayout(botones)
 
-        # Tabla de cuentas
+        
         self.tabla = QTableWidget(0, 5)
 
         self.tabla.setHorizontalHeaderLabels([
@@ -83,7 +83,7 @@ class Cuentas(QWidget):
 
         encabezado = self.tabla.horizontalHeader()
 
-        # Distribución de columnas
+        
         for columna in range(4):
             encabezado.setSectionResizeMode(
                 columna,
@@ -95,7 +95,7 @@ class Cuentas(QWidget):
             QHeaderView.ResizeMode.Fixed
         )
 
-        # Espacio suficiente para el botón
+       
         self.tabla.setColumnWidth(4, 180)
 
         self.tabla.verticalHeader().setVisible(False)
@@ -137,6 +137,8 @@ class Cuentas(QWidget):
             )
             return
 
+
+            # Conexión con SQLAlchemy: abre la sesión para consultar la base de datos
         sesion = obtener_sesion()
 
         try:
@@ -194,7 +196,11 @@ class Cuentas(QWidget):
         finally:
             sesion.close()
 
-    # Cargar cuentas en la tabla
+        # Cierra la sesión de SQLAlchemy
+
+
+
+    
     def cargar_cuentas(self):
 
         sesion = obtener_sesion()
@@ -254,7 +260,7 @@ class Cuentas(QWidget):
                     boton
                 )
 
-                # Altura suficiente para visualizar el botón
+                
                 self.tabla.setRowHeight(fila, 48)
 
         except Exception as error:
@@ -267,7 +273,7 @@ class Cuentas(QWidget):
         finally:
             sesion.close()
 
-    # Cambiar estado de la cuenta
+   
     def cambiar_estado(self, identificador, activo):
 
         nuevo_estado = not bool(activo)

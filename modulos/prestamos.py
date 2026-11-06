@@ -293,23 +293,32 @@ class Prestamos(QWidget):
                     (
                         Libro.codigo.ilike(f"%{texto}%") |
                         Libro.titulo.ilike(f"%{texto}%") |
-                        Libro.autor.ilike(f"%{texto}%")
+                        Libro.autor.ilike(f"%{texto}%") |
+                        Libro.edicion.ilike(f"%{texto}%")
                     )
                 )
-                .order_by(Libro.titulo)
+                .order_by(Libro.titulo, Libro.edicion)
                 .all()
             )
 
             for libro in libros:
+                edicion = str(libro.edicion or "").strip()
+
                 datos = {
                     "codigo": libro.codigo,
                     "titulo": libro.titulo,
                     "autor": libro.autor,
+                    "edicion": edicion,
                     "estado": libro.estado
                 }
 
+                nombre = libro.titulo
+
+                if edicion:
+                    nombre += f" - {edicion}"
+
                 self.resultados_libros.addItem(
-                    f"{libro.codigo} - {libro.titulo} ({libro.autor})",
+                    f"{libro.codigo} - {nombre} ({libro.autor})",
                     datos
                 )
 
@@ -332,15 +341,21 @@ class Prestamos(QWidget):
             return
 
         estado = dato["estado"].strip().lower()
+        edicion = dato.get("edicion", "")
+
+        nombre = dato["titulo"]
+
+        if edicion:
+            nombre += f" - {edicion}"
 
         if estado == "disponible":
             self.libro_mostrado.setText(
-                f'{dato["codigo"]} — {dato["titulo"]} — '
+                f'{dato["codigo"]} — {nombre} — '
                 f'{dato["autor"]}\nEstado: Disponible'
             )
         else:
             self.libro_mostrado.setText(
-                f'{dato["codigo"]} — {dato["titulo"]} — '
+                f'{dato["codigo"]} — {nombre} — '
                 f'{dato["autor"]}\n'
                 f'Estado: {dato["estado"]}. '
                 "Este ejemplar no se puede prestar."
@@ -630,8 +645,13 @@ class Prestamos(QWidget):
             codigo = self.generar_codigo(sesion)
             nombre_usuario = self.usuario_seleccionado["nombre"]
 
+            nombre_libro = libro["titulo"]
+
+            if libro.get("edicion"):
+                nombre_libro += f' - {libro["edicion"]}'
+
             titulo_autor = (
-                f'{libro["titulo"]} — {libro["autor"]}'
+                f'{nombre_libro} — {libro["autor"]}'
             )
 
             # Crear el préstamo.
